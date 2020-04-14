@@ -23,7 +23,7 @@ def worker(a):
 for a in range(52):
     threads.append(threading.Thread(target=worker, args=(a,)))
 
-window = 52
+window = 13
 
 for i in range(0, 52, window):
     for t in range(window):
