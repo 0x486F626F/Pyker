@@ -7,17 +7,16 @@ class Player(object):
         self.card = []
         self.folded = False
 
-    def small_blind(self, blind):
+    def blind(self, blind):
         self.balance -= blind
-
-    def big_blind(self, blind):
-        self.balance -= blind
+        return blind
 
     def deal(self, card):
         self.card.append(card)
 
-    def action(self, bet_range = None, trace = None):
+    def action(self, bet_range, trace):
         self._print_cards()
+        trace.debug()
 
         op = int(input())
         if op < 0:
@@ -28,9 +27,15 @@ class Player(object):
             self.balance -= op
             return op
 
-    def reset(self):
+    def set_new_balance(self, b):
+        self.balance = b
+
+    def reset(self, ordering):
         self.folded = False
         self.card = []
+
+    def notify_shownhands(self, hands):
+        None
 
     def _print_cards(self):
         print(' '.join([interpreter.interpret(c) for c in self.card]))
