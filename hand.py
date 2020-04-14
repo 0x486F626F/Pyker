@@ -83,7 +83,6 @@ class Hand(object):
                 if each[0] == i:
                     flushcards.append(each)
             if len(flushcards) >= 5:
-                print(flushcards)
                 pattern = []
                 return [5, [self._add_highest(flushcards, pattern) for i in range(5)], pattern]
         return None
