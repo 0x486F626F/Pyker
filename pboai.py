@@ -30,6 +30,7 @@ class Player(object):
         op = min(op, bet_range[1])
         op = max(op, bet_range[0])
         print('AI: +', op)
+        return op
 
 
     def set_new_balance(self, b):
