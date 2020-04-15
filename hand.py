@@ -1,11 +1,14 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from deck import Card, NUM_RANKS, SUITS
 
 
+HandInfo = Tuple[int, List[int], List[Card]]
+
+
 class Hand:
     cards: List[Card]
-    hand: Optional[List]  # TODO make this a Tuple[int, List[int], List[Card]]
+    hand: Optional[HandInfo]
 
     def __init__(self, cards):
         self.cards = cards
@@ -21,7 +24,7 @@ class Hand:
         self.hand = self._pair()
         self.hand = self._high_card()
 
-    def _royal_flush(self):
+    def _royal_flush(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for suit in SUITS:
@@ -31,10 +34,10 @@ class Hand:
                 if each not in self.cards:
                     found = False
             if found:
-                return [9, [0], pattern]
+                return 9, [0], pattern
         return None
 
-    def _straight_flush(self):
+    def _straight_flush(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(9):
@@ -45,10 +48,10 @@ class Hand:
                     if each not in self.cards:
                         found = False
                 if found:
-                    return [8, [8 - i], pattern]
+                    return 8, [8 - i], pattern
         return None
 
-    def _four_of_a_kind(self):
+    def _four_of_a_kind(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
@@ -59,9 +62,9 @@ class Hand:
                     found = False
             if found:
                 a = self._add_highest(self.cards, pattern)
-                return [7, [NUM_RANKS - i, a], pattern]
+                return 7, [NUM_RANKS - i, a], pattern
 
-    def _full_house(self):
+    def _full_house(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
@@ -75,20 +78,20 @@ class Hand:
                         if card.rank == (NUM_RANKS - j) % NUM_RANKS:
                             d.append(card)
                     if len(t) == 3 and len(d) == 2:
-                        return [6, [NUM_RANKS - i, NUM_RANKS - j], t + d]
+                        return 6, [NUM_RANKS - i, NUM_RANKS - j], t + d
         return None
 
-    def _flush(self):
+    def _flush(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for suit in SUITS:
             flush_cards = [card for card in self.cards if card.suit == suit]
             if len(flush_cards) >= 5:
                 pattern = []
-                return [5, [self._add_highest(flush_cards, pattern) for _ in range(5)], pattern]
+                return 5, [self._add_highest(flush_cards, pattern) for _ in range(5)], pattern
         return None
 
-    def _straight(self):
+    def _straight(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(10):
@@ -101,10 +104,10 @@ class Hand:
                 if len(pattern) <= j:
                     break
             if len(pattern) == 5:
-                return [4, [9 - i], pattern]
+                return 4, [9 - i], pattern
         return None
 
-    def _three_of_a_kind(self):
+    def _three_of_a_kind(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
@@ -112,10 +115,10 @@ class Hand:
             if len(pattern) == 3:
                 a = self._add_highest(self.cards, pattern)
                 b = self._add_highest(self.cards, pattern)
-                return [3, [NUM_RANKS - i, a, b], pattern]
+                return 3, [NUM_RANKS - i, a, b], pattern
         return None
 
-    def _two_pairs(self):
+    def _two_pairs(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
@@ -130,10 +133,10 @@ class Hand:
                 if len(t) == 2 and len(d) == 2:
                     pattern = t + d
                     a = self._add_highest(self.cards, pattern)
-                    return [2, [NUM_RANKS - i, NUM_RANKS - j, a], pattern]
+                    return 2, [NUM_RANKS - i, NUM_RANKS - j, a], pattern
         return None
 
-    def _pair(self):
+    def _pair(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
@@ -142,16 +145,16 @@ class Hand:
                 a = self._add_highest(self.cards, pattern)
                 b = self._add_highest(self.cards, pattern)
                 c = self._add_highest(self.cards, pattern)
-                return [1, [NUM_RANKS - i, a, b, c], pattern]
+                return 1, [NUM_RANKS - i, a, b, c], pattern
         return None
 
-    def _high_card(self):
+    def _high_card(self) -> Optional[HandInfo]:
         if self.hand is not None:
             return self.hand
         pattern = []
         for _ in range(min(5, len(self.cards))):
             self._add_highest(self.cards, pattern)
-        return [0, [e[1] for e in pattern], pattern]
+        return 0, [e.rank for e in pattern], pattern
 
     def _add_highest(self, cards: List[Card], pattern: List[Card]) -> int:
         highest_card = None
@@ -167,7 +170,7 @@ class Hand:
         pattern.append(highest_card)
         return (highest_card.rank - 1) % NUM_RANKS + 1
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         if self.hand[0] != other.hand[0]:
             return self.hand[0] < other.hand[0]
         for i in range(len(self.hand[1])):
@@ -175,7 +178,7 @@ class Hand:
                 return self.hand[1][i] < other.hand[1][i]
         return False
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if self.hand[0] != other.hand[0]:
             return False
         for i in range(len(self.hand[1])):
