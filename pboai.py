@@ -1,32 +1,36 @@
 import deck
+import random
+from pbo.handrank import Handrank
 interpreter = deck.Deck()
 
 class Player(object): 
     def __init__(self, balance):
         self.balance = balance
+        self.inpool = 0
         self.card = []
         self.folded = False
+        self.h = Handrank()
 
     def blind(self, blind):
-        self.balance -= blind
+        self.inpool += blind
         return blind
 
     def deal(self, card):
         self.card.append(card)
 
     def action(self, bet_range, trace):
-        self._print_cards()
-        trace.debug()
+        print('AI: Thinking...')
+        e = self.h.eval(self.card[:2], self.card[2:], 52-len(self.card)) 
+        limit = e[0] * (self.balance - self.inpool)
+        if limit < 0:
+            print('AI: Fold')
+            return -1
 
-        print('User input:')
-        op = int(input())
-        if op < 0:
-            folded = True
-            return op
-        else:
-            #TODO assert
-            self.balance -= op
-            return op
+        op = int(limit * random.uniform(0.5+trace.stage_num*0.1, 1)+0.5)
+        op = min(op, bet_range[1])
+        op = max(op, bet_range[0])
+        print('AI: +', op)
+
 
     def set_new_balance(self, b):
         self.balance = b
@@ -34,6 +38,7 @@ class Player(object):
     def reset(self, ordering):
         self.folded = False
         self.card = []
+        self.inpool = 0
 
     def notify_shownhands(self, hands):
         None
