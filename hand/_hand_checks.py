@@ -6,41 +6,7 @@ from deck import Card, NUM_RANKS, SUITS
 HandInfo = Tuple[int, List[int], List[Card]]
 
 
-class Hand:
-    cards: List[Card]
-    hand: Optional[HandInfo] = None
-
-    def __init__(self, cards):
-        self.cards = cards
-
-        for check in _HAND_CHECKS:
-            result = check(cards)
-            if result is not None:
-                self.hand = result
-                break
-
-    def __lt__(self, other) -> bool:
-        if self.hand[0] != other.hand[0]:
-            return self.hand[0] < other.hand[0]
-        for i in range(len(self.hand[1])):
-            if self.hand[1][i] != other.hand[1][i]:
-                return self.hand[1][i] < other.hand[1][i]
-        return False
-
-    def __eq__(self, other) -> bool:
-        if self.hand[0] != other.hand[0]:
-            return False
-        for i in range(len(self.hand[1])):
-            if self.hand[1][i] != other.hand[1][i]:
-                return False
-        return True
-
-    def print_hand(self):
-        print(self.hand[0], self.hand[1])
-        print(' '.join([str(c) for c in self.hand[2]]))
-
-
-def _royal_flush(cards: List[Card]) -> Optional[HandInfo]:
+def royal_flush(cards: List[Card]) -> Optional[HandInfo]:
     for suit in SUITS:
         pattern = [Card(suit, (i + 9) % NUM_RANKS) for i in range(5)]
         found = True
@@ -52,7 +18,7 @@ def _royal_flush(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _straight_flush(cards: List[Card]) -> Optional[HandInfo]:
+def straight_flush(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(9):
         for suit in SUITS:
             pattern = [Card(suit, (8 - i + j)) for j in range(5)]
@@ -65,7 +31,7 @@ def _straight_flush(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _four_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
+def four_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(NUM_RANKS):
         pattern = [Card(suit, (NUM_RANKS - i) % NUM_RANKS) for suit in SUITS]
         found = True
@@ -77,7 +43,7 @@ def _four_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
             return 7, [NUM_RANKS - i, a], pattern
 
 
-def _full_house(cards: List[Card]) -> Optional[HandInfo]:
+def full_house(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(NUM_RANKS):
         for j in range(NUM_RANKS):
             if i != j:
@@ -93,7 +59,7 @@ def _full_house(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _flush(cards: List[Card]) -> Optional[HandInfo]:
+def flush(cards: List[Card]) -> Optional[HandInfo]:
     for suit in SUITS:
         flush_cards = [card for card in cards if card.suit == suit]
         if len(flush_cards) >= 5:
@@ -102,7 +68,7 @@ def _flush(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _straight(cards: List[Card]) -> Optional[HandInfo]:
+def straight(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(10):
         pattern = []
         for j in range(5):
@@ -117,7 +83,7 @@ def _straight(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _three_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
+def three_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(NUM_RANKS):
         pattern = [card for card in cards if card.rank == (NUM_RANKS - i) % NUM_RANKS]
         if len(pattern) == 3:
@@ -127,7 +93,7 @@ def _three_of_a_kind(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _two_pairs(cards: List[Card]) -> Optional[HandInfo]:
+def two_pairs(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(NUM_RANKS):
         for j in range(i+1, NUM_RANKS):
             t = []
@@ -144,18 +110,22 @@ def _two_pairs(cards: List[Card]) -> Optional[HandInfo]:
     return None
 
 
-def _pair(cards: List[Card]) -> Optional[HandInfo]:
+def pair(cards: List[Card]) -> Optional[HandInfo]:
     for i in range(NUM_RANKS):
         pattern = [card for card in cards if card.rank == (NUM_RANKS - i) % NUM_RANKS]
         if len(pattern) == 2:
-            a = _add_highest(cards, pattern)
-            b = _add_highest(cards, pattern)
-            c = _add_highest(cards, pattern)
+            a, b, c = 0, 0, 0
+            if len(cards) >= 3:
+                a = _add_highest(cards, pattern)
+            if len(cards) >= 4:
+                b = _add_highest(cards, pattern)
+            if len(cards) >= 5:
+                c = _add_highest(cards, pattern)
             return 1, [NUM_RANKS - i, a, b, c], pattern
     return None
 
 
-def _high_card(cards: List[Card]) -> Optional[HandInfo]:
+def high_card(cards: List[Card]) -> Optional[HandInfo]:
     pattern = []
     for _ in range(min(5, len(cards))):
         _add_highest(cards, pattern)
@@ -179,7 +149,7 @@ def _add_highest(cards: List[Card], pattern: List[Card]) -> int:
 
 # A list of checks to determine which combination a hand holds,
 # ordered from best to worst combination
-_HAND_CHECKS = [
-    _royal_flush, _straight_flush, _four_of_a_kind, _full_house, _flush,
-    _straight, _three_of_a_kind, _two_pairs, _pair, _high_card,
+HAND_CHECKS = [
+    royal_flush, straight_flush, four_of_a_kind, full_house, flush,
+    straight, three_of_a_kind, two_pairs, pair, high_card,
 ]
