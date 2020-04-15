@@ -2,21 +2,17 @@ from trace import Trace
 from typing import List
 
 from deck import Card
-from hand import Hand
+from .player_controller import PlayerController, FOLD
 
 
-# Betting this number of chips is will make the character call.
-CALL = 0
-# Betting this number of chips is will make the character fold.
-FOLD = -1
-
-
-class BaselineBot:
+class Player:
+    controller: PlayerController
     balance: int
     hand: List[Card]
     folded: bool
 
-    def __init__(self, initial_balance: int):
+    def __init__(self, controller: PlayerController, initial_balance: int):
+        self.controller = controller
         self.balance = initial_balance
         self.folded = False
         self.hand = []
@@ -28,37 +24,22 @@ class BaselineBot:
     def deal(self, card: Card):
         self.hand.append(card)
 
-    # TODO make bet_range a Tuple[int, int] or a class
     def action(self, bet_range: List[int], trace: Trace) -> int:
         """
-        Lets the character bet, check/call or raise.
+        Lets the player bet, check/call or raise.
         Returns either the amount of chips that is added to the pot or FOLD, if the character folded.
         """
 
-        print("(bot) ", end="")
         self._print_cards()
         trace.debug()
 
-        try:
-            # bet depending on the strength of the hand
-            hand = Hand(self.hand)
-            hand_rank = hand.hand[0]
-            bet = hand_rank * 10
-            # fold if the other players have bet too much
-            if bet < bet_range[0]:
-                bet = FOLD
-        except TypeError:
-            bet = CALL
-
-        # clamp bet to range
-        if bet not in [FOLD, CALL]:
-            bet = min(bet, bet_range[1])
+        bet = self.controller.bet(self.hand, bet_range, trace)
 
         if bet == FOLD:
             self.folded = True
         else:
-            if bet == CALL:
-                bet = bet_range[0]
+            # TODO make sure that the PlayerControllers don't do this
+            assert(self.balance >= bet)
             self.balance -= bet
 
         print("bet:", bet)

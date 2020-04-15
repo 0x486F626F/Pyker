@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from deck import Card
-from hand._hand_checks import HAND_CHECKS, HandInfo
+from ._hand_checks import HAND_CHECKS, HandInfo
 
 
 class Hand:
