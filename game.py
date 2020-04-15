@@ -41,7 +41,7 @@ class Round(object):
             low = min(self.balances[idx], max(self.userpool)) - self.userpool[idx]
             high = min(self.balances[idx], rank2(self.balances)) - self.userpool[idx]
 
-            if high == 0:
+            if high == 0 or len(self.active_players) == 1:
                 continue
 
             debug('Range: ' + str([low, high]))
@@ -199,7 +199,7 @@ class Round(object):
         shownhands = [[i, self.cards[i]] for i in range(self.nplayer) 
                 if not self.folded[i]]
         for idx in range(self.nplayer):
-            self.players[idx].set_new_balance(self.balances[i])
+            self.players[idx].set_new_balance(self.balances[idx])
             self.players[idx].notify_shownhands(shownhands)
         return self.balances
             
