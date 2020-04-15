@@ -33,6 +33,7 @@ class Round(object):
         while cur < len(queue):
             idx = queue[cur]
             cur += 1
+            debug("")
             debug('Player ' + str(idx))
             debug('Current: ' + str(cur) + ' of Queue: ' + str(queue))
             debug('Balances: ' + str(self.balances))
@@ -70,6 +71,8 @@ class Round(object):
                 for each in players:
                     if each not in subsequent:
                         queue.append(each)
+
+        debug("")
         debug('Pool: ' + str(self.userpool))
         debug('Active Players: ' + str(self.active_players))
 
