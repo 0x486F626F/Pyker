@@ -202,7 +202,7 @@ class Round(object):
         shown_hands = [[i, self.cards[i]] for i in range(self.n_player)
                        if not self.folded[i]]
         for idx in range(self.n_player):
-            self.players[idx].set_new_balance(self.balances[i])
+            self.players[idx].set_new_balance(self.balances[idx])
             self.players[idx].notify_shownhands(shown_hands)
         return self.balances
 

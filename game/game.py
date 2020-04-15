@@ -1,4 +1,4 @@
-from round import Round
+from .round import Round
 
 
 class Game(object):
