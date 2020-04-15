@@ -82,11 +82,7 @@ class Hand:
         if self.hand is not None:
             return self.hand
         for suit in SUITS:
-            # TODO flush_cards = [card for card in self.cards if card.suit == suit] ?
-            flush_cards = []
-            for card in self.cards:
-                if card.suit == suit:
-                    flush_cards.append(card)
+            flush_cards = [card for card in self.cards if card.suit == suit]
             if len(flush_cards) >= 5:
                 pattern = []
                 return [5, [self._add_highest(flush_cards, pattern) for _ in range(5)], pattern]
@@ -112,11 +108,7 @@ class Hand:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
-            # TODO use list comprehension
-            pattern = []
-            for card in self.cards:
-                if card.rank == (NUM_RANKS - i) % NUM_RANKS:
-                    pattern.append(card)
+            pattern = [card for card in self.cards if card.rank == (NUM_RANKS - i) % NUM_RANKS]
             if len(pattern) == 3:
                 a = self._add_highest(self.cards, pattern)
                 b = self._add_highest(self.cards, pattern)
@@ -145,10 +137,7 @@ class Hand:
         if self.hand is not None:
             return self.hand
         for i in range(NUM_RANKS):
-            pattern = []
-            for card in self.cards:
-                if card.rank == (NUM_RANKS - i) % NUM_RANKS:
-                    pattern.append(card)
+            pattern = [card for card in self.cards if card.rank == (NUM_RANKS - i) % NUM_RANKS]
             if len(pattern) == 2:
                 a = self._add_highest(self.cards, pattern)
                 b = self._add_highest(self.cards, pattern)
