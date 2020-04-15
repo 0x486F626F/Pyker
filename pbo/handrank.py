@@ -62,7 +62,6 @@ class Handrank(object):
             myprobs[key] *= prev
             s += myprobs[key]
             prev *= (1-t)
-        print(s)
 
         prev = 1
         s = 0
@@ -71,7 +70,6 @@ class Handrank(object):
             opprobs[key] *= prev
             s += opprobs[key]
             prev *= (1-t)
-        print(s)
 
         for i in range(1, len(opkeys)):
             opprobs[opkeys[-i-1]] += opprobs[opkeys[-i]]
@@ -98,18 +96,6 @@ class Handrank(object):
                 continue
             win += myprobs[my] * opprobs[op]
             lose += myprobs[my] * (1 - opprobs[op])
-
-        """
-        for my in mykeys:
-            for op in opkeys:
-                if my < op:
-                    win += myprobs[my] * opprobs[op]
-                if my == op:
-                    tie += myprobs[my] * opprobs[op]
-                if my > op:
-                    lose += myprobs[my] * opprobs[op]
-
-        """
 
 
         return [win, tie, lose, win+tie+lose]

@@ -16,10 +16,8 @@ class Player(object):
 
     def action(self, bet_range, trace):
         self._print_cards()
-        trace.debug()
 
-        print('User input:')
-        op = int(input())
+        op = int(input('User input %s or -1 to fold: ' % str(bet_range)))
         if op < 0:
             folded = True
             return op
