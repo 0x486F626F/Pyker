@@ -1,18 +1,14 @@
 from trace import Trace
-from typing import List, Tuple
+from typing import List
 
-import deck
+from deck import Card
 from hand import Hand
 
 
-Card = Tuple[int, int]
-
 # Betting this number of chips is will make the character call.
-CALL: int = 0
+CALL = 0
 # Betting this number of chips is will make the character fold.
-FOLD: int = -1
-
-interpreter = deck.Deck()
+FOLD = -1
 
 
 class BaselineBot:
@@ -81,4 +77,4 @@ class BaselineBot:
         pass
 
     def _print_cards(self):
-        print(' '.join([interpreter.interpret(c) for c in self.hand]))
+        print(' '.join([str(card) for card in self.hand]))

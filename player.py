@@ -1,10 +1,5 @@
-import deck
 
-
-interpreter = deck.Deck()
-
-
-class Player(object): 
+class Player(object):
     def __init__(self, balance):
         self.balance = balance
         self.card = []
@@ -41,4 +36,4 @@ class Player(object):
         None
 
     def _print_cards(self):
-        print(' '.join([interpreter.interpret(c) for c in self.card]))
+        print(' '.join([str(card) for card in self.card]))
