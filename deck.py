@@ -5,7 +5,6 @@ from typing import List, Optional
 NUM_RANKS = 13
 NUM_SUITS = 4
 RANKS = range(NUM_RANKS)
-# TODO add RANKS_REVERSED
 SUITS = range(NUM_SUITS)
 
 # The unicode code point for the ace of each suit.
@@ -26,9 +25,12 @@ class Card:
         self.suit = suit
         self.rank = rank
 
-    def __str__(self):
+    def __str__(self) -> str:
         rank = self.rank if self.rank < 11 else self.rank + 1
         return chr(UNICODE_BASE_CODE_POINTS[self.suit] + rank)
+
+    def __eq__(self, other):
+        return self.suit == other.suit and self.rank == other.rank
 
 
 class Deck:
