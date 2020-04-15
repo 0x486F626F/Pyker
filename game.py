@@ -76,6 +76,8 @@ class Round(object):
         # check side pool
         active_player_pool = [self.userpool[i] for i in self.active_players]
         min_bet = min(active_player_pool)
+        if min_bet == max(active_player_pool):
+            return
         newpool = []
         for idx in range(self.nplayer):
             if not self.folded[idx] and self.userpool[idx] > min_bet:
@@ -226,6 +228,7 @@ class Game(object):
     def start(self):
         while len(self.players) > 1:
             self.one_round()
+            print('================================')
 
 
 def rank2(arr):
