@@ -97,7 +97,6 @@ class Handrank(object):
             win += myprobs[my] * opprobs[op]
             lose += myprobs[my] * (1 - opprobs[op])
 
-
         return [win, tie, lose, win+tie+lose]
                     
 
