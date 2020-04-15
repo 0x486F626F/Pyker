@@ -1,5 +1,8 @@
 import deck
+
+
 interpreter = deck.Deck()
+
 
 class Player(object): 
     def __init__(self, balance):
@@ -23,7 +26,7 @@ class Player(object):
             folded = True
             return op
         else:
-            #TODO assert
+            # TODO assert
             self.balance -= op
             return op
 

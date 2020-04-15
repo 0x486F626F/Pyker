@@ -1,10 +1,12 @@
 import random
 
+
 suit_base = [127137, 127153, 127169, 127185]
+
 
 class Deck(object):
     def __init__(self):
-        self.deck = [[i,j] for i in range(4) for j in range(13)]
+        self.deck = [[i, j] for i in range(4) for j in range(13)]
         random.shuffle(self.deck)
         self.index = 0
 
@@ -18,4 +20,3 @@ class Deck(object):
         if card[1] < 11:
             return chr(suit_base[card[0]] + card[1])
         return chr(suit_base[card[0]] + card[1] + 1)
-

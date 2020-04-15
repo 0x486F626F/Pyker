@@ -1,6 +1,8 @@
 import deck
 
+
 interpreter = deck.Deck()
+
 
 class Hand(object):
     def __init__(self, cards):
@@ -21,7 +23,7 @@ class Hand(object):
         if self.hand is not None:
             return self.hand
         for i in range(4):
-            pattern = [[i, (j+9)%13] for j in range(5)]
+            pattern = [[i, (j+9) % 13] for j in range(5)]
             found = True
             for each in pattern:
                 if each not in self.cards:
@@ -48,7 +50,7 @@ class Hand(object):
         if self.hand is not None:
             return self.hand
         for i in range(13):
-            pattern = [[p, (13-i)%13] for p in range(4)]
+            pattern = [[p, (13-i) % 13] for p in range(4)]
             found = True
             for each in pattern:
                 if each not in self.cards:
@@ -66,9 +68,9 @@ class Hand(object):
                     t = []
                     d = []
                     for each in self.cards:
-                        if each[1] == (13-i)%13:
+                        if each[1] == (13-i) % 13:
                             t.append(each)
-                        if each[1] == (13-j)%13:
+                        if each[1] == (13-j) % 13:
                             d.append(each)
                     if len(t) == 3 and len(d) == 2:
                         return [6, [13-i, 13-j], t+d]
@@ -84,7 +86,7 @@ class Hand(object):
                     flushcards.append(each)
             if len(flushcards) >= 5:
                 pattern = []
-                return [5, [self._add_highest(flushcards, pattern) for i in range(5)], pattern]
+                return [5, [self._add_highest(flushcards, pattern) for _ in range(5)], pattern]
         return None
 
     def _straight(self):
@@ -94,7 +96,7 @@ class Hand(object):
             pattern = []
             for j in range(5):
                 for each in self.cards:
-                    if each[1] == (9-i+j)%13:
+                    if each[1] == (9-i+j) % 13:
                         pattern.append(each)
                         break
                 if len(pattern) <= j:
@@ -109,7 +111,7 @@ class Hand(object):
         for i in range(13):
             pattern = []
             for each in self.cards:
-                if each[1] == (13-i)%13:
+                if each[1] == (13-i) % 13:
                     pattern.append(each)
             if len(pattern) == 3:
                 a = self._add_highest(self.cards, pattern)
@@ -125,9 +127,9 @@ class Hand(object):
                 t = []
                 d = []
                 for each in self.cards:
-                    if each[1] == (13-i)%13:
+                    if each[1] == (13-i) % 13:
                         t.append(each)
-                    if each[1] == (13-j)%13:
+                    if each[1] == (13-j) % 13:
                         d.append(each)
                 if len(t) == 2 and len(d) == 2:
                     pattern = t + d
@@ -141,7 +143,7 @@ class Hand(object):
         for i in range(13):
             pattern = []
             for each in self.cards:
-                if each[1] == (13-i)%13:
+                if each[1] == (13-i) % 13:
                     pattern.append(each)
             if len(pattern) == 2:
                 a = self._add_highest(self.cards, pattern)
@@ -161,10 +163,10 @@ class Hand(object):
     def _add_highest(self, cards, pattern):
         card = None
         for each in cards:
-            if each not in pattern and (card is None or (each[1]+12)%13 > (card[1]+12)%13):
+            if each not in pattern and (card is None or (each[1]+12) % 13 > (card[1]+12) % 13):
                 card = each
         pattern.append(card)
-        return (card[1]+12)%13+1
+        return (card[1]+12) % 13+1
 
     def __lt__(self, other):
         if self.hand[0] != other.hand[0]:
@@ -182,8 +184,6 @@ class Hand(object):
                 return False
         return True
 
-    def printhand(self):
+    def print_hand(self):
         print(self.hand[0], self.hand[1])
         print(' '.join([interpreter.interpret(c) for c in self.hand[2]]))
-
-
