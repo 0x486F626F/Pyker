@@ -39,7 +39,7 @@ class Handrank(object):
         for each in searchlist:
             overlap = each[1] & w
             missing = 5 - len(self.decode(overlap))
-            if each[1] & wo == 0 and (each[1] & w > 0 and missing <= 7-len(useable)):
+            if each[1] & wo == 0 and missing <= 7-len(useable):
                 result.append(each + [missing])
         return result
 
