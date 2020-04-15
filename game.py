@@ -229,6 +229,7 @@ class Game(object):
         while len(self.players) > 1:
             self.one_round()
             print('================================')
+        return self.players[0].get_config()
 
 
 def rank2(arr):

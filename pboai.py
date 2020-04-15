@@ -9,14 +9,13 @@ class Player(object):
         self.balance = balance
         self.inpool = 0
         self.card = []
-        self.folded = False
         self.h = Handrank()
 
-    def set_config(self, amp, bet, sr, ir):
-        self.exp_amp = random.gauss(amp, math.sqrt(amp)) 
-        self.bet_amp = random.gauss(bet, math.sqrt(bet))
-        self.start_rate = random.gauss(sr, math.sqrt(sr))
-        self.inc_rate = random.gauss(ir, math.sqrt(ir))
+    def set_config(self, amp, bet, sr, ir, n):
+        self.exp_amp = random.gauss(amp, math.sqrt(amp)/n) 
+        self.bet_amp = random.gauss(bet, math.sqrt(bet)/n)
+        self.start_rate = random.gauss(sr, math.sqrt(sr)/n)
+        self.inc_rate = random.gauss(ir, math.sqrt(ir)/n)
 
     def get_config(self):
         return [self.exp_amp, self.bet_amp, self.start_rate, self.inc_rate]
@@ -51,7 +50,6 @@ class Player(object):
         self.balance = b
 
     def reset(self, ordering):
-        self.folded = False
         self.card = []
         self.inpool = 0
 
