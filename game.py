@@ -106,13 +106,13 @@ class Round(object):
 
         # Small blind and big blind 
         for i in range(2):
-            bet = self.players[i].blind(self.blind * (i+1))
+            bet = self.players[i].blind(self.blind * (i + 1))
             assert(bet >= self.blind)
             self.user_pool[i] += bet
             log.add_bet(i, bet)  
 
         # deal 2 cards
-        for c in range(2):
+        for _ in range(2):
             for i in self.active_players:
                 card = self.deck.deal()
                 self.cards[i].append(card)
@@ -126,14 +126,17 @@ class Round(object):
     def stage1(self):
         debug('Stage 1')
         log = trace.Trace(len(self.trace), self.balances, self.user_pool, self.side_pools)
-        burned = self.deck.deal()
-        cards = [self.deck.deal() for _ in range(3)]
-        log.add_pub_cards(cards)
-        for p in self.players:
-            for c in cards:
-                p.deal(c)
+
+        # burn a card
+        self.deck.deal()
+
+        flop = [self.deck.deal() for _ in range(3)]
+        log.add_pub_cards(flop)
+        for player in self.players:
+            for card in flop:
+                player.deal(card)
         for each in self.cards:
-            each += cards
+            each += flop
 
         player_queue = self.active_players[:]
         if len(player_queue) > 1:
@@ -143,11 +146,14 @@ class Round(object):
     def stage2(self):
         debug('Stage 2')
         log = trace.Trace(len(self.trace), self.balances, self.user_pool, self.side_pools)
-        burned = self.deck.deal()
+
+        # burn a card
+        self.deck.deal()
+
         card = self.deck.deal()
         log.add_pub_cards([card])
-        for p in self.players:
-            p.deal(card)
+        for player in self.players:
+            player.deal(card)
         for each in self.cards:
             each.append(card)
 
@@ -179,15 +185,15 @@ class Round(object):
                 continue
             
             candidates = [[i, hand.Hand(self.cards[i])] for i in players]
-            for c in candidates:
-                debug(c[0])
-                c[1].print_hand()
+            for candidate in candidates:
+                debug(candidate[0])
+                candidate[1].print_hand()
             # use user id as secondary key so that lowest player id gets extra
             candidates = sorted(candidates, key=lambda x: (x[1], x[0]))
             winners = []
-            for c in candidates:
-                if c[1] == candidates[-1][1]:
-                    winners.append(c[0])
+            for candidate in candidates:
+                if candidate[1] == candidates[-1][1]:
+                    winners.append(candidate[0])
             debug('Winners: ' + str(winners))
             for i in winners:
                 self.balances[i] += sum(pool) // len(winners)
