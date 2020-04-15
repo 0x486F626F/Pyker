@@ -1,9 +1,10 @@
+
 class Trace(object):
-    def __init__(self, stage_num, balances, userpool, sidepools):
+    def __init__(self, stage_num, balances, user_pool, side_pools):
         self.stage_num = stage_num
         self.balances = balances
-        self.userpool = userpool
-        self.sidepools = sidepools
+        self.user_pool = user_pool
+        self.side_pools = side_pools
         self.pub_cards = []
         self.bets = []
 
@@ -14,4 +15,4 @@ class Trace(object):
         self.pub_cards += cards
 
     def debug(self):
-        print(self.userpool)
+        print(self.user_pool)
