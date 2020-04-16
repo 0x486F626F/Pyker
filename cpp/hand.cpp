@@ -247,7 +247,6 @@ std::map <int, double> P_best_strength(const std::map <t_card, double> &p_hand) 
     return p_strength;
 }
 
-#include <iostream>
 void eval_hand(t_card pocket, t_card pub, eval *ret) {
     size_t decksize = 52 - count_cards(pocket) - count_cards(pub);
     size_t tries = 5 - count_cards(pub);
@@ -262,7 +261,6 @@ void eval_hand(t_card pocket, t_card pub, eval *ret) {
 
     for (auto i = op_p_best.rbegin(); std::next(i, 1) != op_p_best.rend(); i ++) 
         std::next(i, 1)->second += i->second;
-    std::cerr << op_p_best.begin()->second << std::endl;
 
     ret->win = ret->lose = ret->tie = 0;
     auto opit = op_p_best.begin();
