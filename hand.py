@@ -100,7 +100,7 @@ class Hand(object):
                 if len(pattern) <= j:
                     break
             if len(pattern) == 5:
-                return [4, [9-i], pattern]
+                return [4, [(9-i+j)%13], pattern]
         return None
 
     def _three_of_a_kind(self):
@@ -170,8 +170,10 @@ class Hand(object):
         if self.hand[0] != other.hand[0]:
             return self.hand[0] < other.hand[0]
         for i in range(len(self.hand[1])):
-            if self.hand[1][i] != other.hand[1][i]:
-                return self.hand[1][i] < other.hand[1][i]
+            s1 = (self.hand[1][i] + 12) % 13
+            s2 = (other.hand[1][i] + 12) % 13
+            if s1 != s2:
+                return s1 < s2
         return False
 
     def __eq__(self, other):
