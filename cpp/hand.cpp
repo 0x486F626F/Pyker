@@ -1,5 +1,8 @@
 #include "hand.h"
-#include <iostream>
+
+#include <algorithm>
+#include <string>
+#include <vector>
 
 static int strength_high_cards(t_card cards, int count) {
     int base = 1;
@@ -127,29 +130,166 @@ int hand_strength(t_card cards) {
     int s = -1;
     
     s = strength_straight_flush(cards);
-    if (s >= 0) return s + base;
+    if (s >= 0) return s + base * 0;
 
     s = strength_four_of_a_kind(cards);
-    if (s >= 0) return s + base * 2;
+    if (s >= 0) return s + base * 1;
 
     s = strength_full_house(cards);
-    if (s >= 0) return s + base * 3;
+    if (s >= 0) return s + base * 2;
 
     s = strength_flush(cards);
-    if (s >= 0) return s + base * 4;
+    if (s >= 0) return s + base * 3;
 
     s = strength_straight(cards);
-    if (s >= 0) return s + base * 5;
+    if (s >= 0) return s + base * 4;
 
     s = strength_three_of_a_kind(cards);
-    if (s >= 0) return s + base * 6;
+    if (s >= 0) return s + base * 5;
 
     s = strength_two_pairs(cards);
-    if (s >= 0) return s + base * 7;
+    if (s >= 0) return s + base * 6;
 
     s = strength_pair(cards);
-    if (s >= 0) return s + base * 8;
+    if (s >= 0) return s + base * 7;
 
     s = strength_high_cards(cards);
-    return s + base * 9;
+    return s + base * 8;
+}
+
+std::vector <t_card> all_hands() {
+    std::vector <t_card> hands;
+    for (int a = 0; a < 52; a ++)
+        for (int b = a + 1; b < 52; b ++)
+            for (int c = b + 1; c < 52; c ++)
+                for (int d = c + 1; d < 52; d ++)
+                    for (int e = d + 1; e < 52; e ++) {
+                        t_card hand = (1ll << a) + (1ll << b) + (1ll << c) + (1ll << d) + (1ll << e);
+                        hands.push_back(hand);
+                    }
+    return hands;
+}
+
+std::vector <t_card> possible_hands(t_card usable, t_card unusable, 
+        size_t max_extra, const std::vector <t_card> &searchlist) {
+    std::vector <t_card> hands;
+    for (size_t i = 0; i < searchlist.size(); i ++) 
+        if ((searchlist[i] & unusable) == 0) {
+            t_card overlap = usable & searchlist[i];
+            size_t extra = count_cards(searchlist[i]) - count_cards(overlap);
+            if (extra <= max_extra) hands.push_back(searchlist[i]);
+        }
+    return hands;
+}
+
+std::map <t_card, unsigned int> hand_to_rank(const std::vector <t_card> &hands) {
+    std::vector <std::pair <int, t_card> > strengths;
+    for (size_t i = 0; i < hands.size(); i ++)
+        strengths.push_back(std::make_pair(hand_strength(hands[i]), hands[i]));
+    std::sort(strengths.begin(), strengths.end());
+
+    std::map <t_card, unsigned int> ranks;
+    unsigned int rank = 0;
+    int prev = strengths[0].first;
+    for (size_t i = 0; i < strengths.size(); i ++) {
+        if (prev < strengths[i].first) rank = i;
+        ranks[strengths[i].second] = rank;
+        prev = strengths[i].first;
+    }
+    return ranks;
+}
+
+static unsigned C(unsigned n, unsigned k) {
+    if (k > n) return 0;
+    if (k * 2 > n) k = n-k;
+    if (k == 0) return 1;
+
+    int result = n;
+    for( int i = 2; i <= k; i++ ) {
+        result *= (n-i+1);
+        result /= i;
+    }
+    return result;
+}
+
+std::map <t_card, double> P_hand(const std::vector <t_card> &targets,
+        t_card hand, size_t decksize, size_t tries) {
+    unsigned t = C(decksize, tries);
+    std::map <t_card, double> probs;
+    for (size_t i = 0; i < targets.size(); i ++) {
+        size_t missing = count_cards(targets[i]) - count_cards(hand & targets[i]);
+        unsigned c = C(decksize-missing, tries-missing);
+        probs[targets[i]] = double(c) / t;
+    }
+    return probs;
+}
+
+std::map <int, double> P_best_strength(const std::map <t_card, double> &p_hand) {
+    std::map <int, double> p_strength;
+
+    for (auto it = p_hand.begin(); it != p_hand.end(); it ++) {
+        int strength = hand_strength(it->first);
+        auto p = p_strength.find(strength);
+        if (p == p_strength.end()) {
+            p_strength[strength] = 0;
+            p = p_strength.find(strength);
+        }
+        p->second += it->second;
+    }
+
+    double prev = 1;
+    for (auto it = p_strength.begin(); it != p_strength.end(); it ++) {
+        double t = it->second;
+        it->second *= prev;
+        prev *= (1 - t);
+    }
+    
+    return p_strength;
+}
+
+#include <iostream>
+void eval_hand(t_card pocket, t_card pub, eval *ret) {
+    size_t decksize = 52 - count_cards(pocket) - count_cards(pub);
+    size_t tries = 5 - count_cards(pub);
+
+    ret->my_targets = possible_hands(pocket | pub, 0, tries, ret->my_targets);
+    auto my_p_hand = P_hand(ret->my_targets, pocket | pub, decksize, tries);
+    auto my_p_best = P_best_strength(my_p_hand);
+
+    ret->op_targets = possible_hands(pub, pocket, tries + 2, ret->op_targets);
+    auto op_p_hand = P_hand(ret->op_targets, pub, decksize, tries + 2);
+    auto op_p_best = P_best_strength(op_p_hand);
+
+    for (auto i = op_p_best.rbegin(); std::next(i, 1) != op_p_best.rend(); i ++) 
+        std::next(i, 1)->second += i->second;
+    std::cerr << op_p_best.begin()->second << std::endl;
+
+    ret->win = ret->lose = ret->tie = 0;
+    auto opit = op_p_best.begin();
+    for (auto myit = my_p_best.begin(); myit != my_p_best.end(); myit ++) {
+        while (opit->first < myit->first && opit != op_p_best.end())
+            opit ++;
+        if (opit == op_p_best.end()) {
+            ret->win += myit->second;
+            continue;
+        }
+
+        int my_strength = myit->first;
+        int op_strength = opit->first;
+        double my_prob = myit->second;
+        double op_prob = opit->second;
+
+        if (my_strength == op_strength) {       //could tie
+            auto nextop = std::next(opit, 1);
+            if (nextop != op_p_best.end()) {
+                ret->win += my_prob * nextop->second;
+                ret->tie += my_prob * (op_prob - nextop->second);
+            } 
+            else ret->tie += my_prob * op_prob;
+            ret->lose += my_prob * (1 - op_prob);
+            continue;
+        }
+        ret->win += my_prob * op_prob;
+        ret->lose += my_prob * (1 - op_prob);
+    }
 }
