@@ -28,4 +28,7 @@ std::vector <card> overlap_cards(const t_card &c1, const t_card &c2);
 size_t count_cards(t_card c);
 void print_cards(t_card c);
 
+bool operator==(const card &c1, const card &c2);
+bool operator<(const card &c1, const card &c2);
+
 #endif
