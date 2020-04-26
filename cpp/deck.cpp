@@ -18,3 +18,13 @@ Deck::Deck() {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::shuffle(cards.begin(), cards.end(), std::default_random_engine(seed));
 }
+
+Card* Deck::deal() {
+    if (next_card_index >= NUM_SUITS * NUM_RANKS) {
+        // the deck is empty
+        return nullptr;
+    }
+
+    next_card_index++;
+    return &cards[next_card_index - 1];
+}
