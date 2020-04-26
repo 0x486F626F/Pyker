@@ -15,7 +15,6 @@ public:
     Card deal();
 private:
     std::vector<Card> cards;
-    size_t next_card_index = 0;
 };
 
 

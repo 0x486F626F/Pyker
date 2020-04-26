@@ -10,13 +10,11 @@ class Player {
 public:
     Player(PlayerController* controller, int initial_balance);
     void deal(Card card);
-    /**
-     * Lets the player bet, check/call or raise.
-     * @return either the amount of chips that is added to the pot or FOLD, if the player folds.
-     */
+    /// Lets the player bet, check/call or raise.
+    /// @return either the amount of chips that is added to the pot or FOLD, if the player folds.
     // TODO add trace parameter
     int do_betting_action(BetRange bet_range);
-    /** Prepares the player for the start of a new game/hand. */
+    /// Prepares the player for the start of a new game/hand.
     void reset();
     void reduce_balance(int amount);
     void set_balance(int b);
