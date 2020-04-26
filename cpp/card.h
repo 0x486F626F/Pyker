@@ -14,8 +14,8 @@ typedef uint64_t t_card;
 struct card {
     uint8_t suit;   //Spades = 0, Hearts = 1, Diamonds = 2 and Clubs = 3
     uint8_t rank;   //A=0, K=1, Q=2, J=3, 10=4, ..., 2=12
-    card(t_card c);
-    card(const std::string &s);
+    explicit card(t_card c);
+    explicit card(const std::string &s);
     std::string str() const;
     t_card encode() const;
 };
