@@ -2,7 +2,7 @@
 #define PYKER_PLAYER_CONTROLLER_H
 
 
-#include "card.h"
+#include "cards/card.h"
 
 
 typedef std::tuple<int, int> BetRange;

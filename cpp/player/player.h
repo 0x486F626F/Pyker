@@ -2,7 +2,7 @@
 #define PYKER_PLAYER_H
 
 
-#include "card.h"
+#include "cards/card.h"
 #include "player_controller/player_controller.h"
 
 
