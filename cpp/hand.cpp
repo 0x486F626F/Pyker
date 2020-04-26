@@ -10,7 +10,7 @@ static int strength_high_cards(t_card cards, int count) {
         base *= 13;
     int strength = 0;
     for (int i = 0; i < count; i ++) {
-        card high_card = card(lowbit(cards));
+        Card high_card = Card(lowbit(cards));
         strength += high_card.rank * base;
         base /= 13;
         cards -= lowbit(cards);

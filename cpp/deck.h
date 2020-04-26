@@ -13,7 +13,7 @@ class Deck {
 public:
     Deck();
 private:
-    std::vector<card> cards;
+    std::vector<Card> cards;
 };
 
 
