@@ -19,12 +19,11 @@ Deck::Deck() {
     std::shuffle(cards.begin(), cards.end(), std::default_random_engine(seed));
 }
 
-Card* Deck::deal() {
-    if (next_card_index >= NUM_SUITS * NUM_RANKS) {
-        // the deck is empty
-        return nullptr;
+Card Deck::deal() {
+    if (cards.empty()) {
+        throw std::length_error("There are no cards left in the deck");
     }
-
-    next_card_index++;
-    return &cards[next_card_index - 1];
+    Card card = cards.back();
+    cards.pop_back();
+    return card;
 }
