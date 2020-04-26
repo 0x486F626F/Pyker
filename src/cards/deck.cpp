@@ -15,8 +15,8 @@ Deck::Deck() {
     }
 
     // shuffle the cards
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(cards.begin(), cards.end(), std::default_random_engine(seed));
+    auto rng = std::default_random_engine(std::random_device()());
+    std::shuffle(cards.begin(), cards.end(), rng);
 }
 
 Card Deck::deal() {
