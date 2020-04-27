@@ -14,7 +14,7 @@ public:
     void deal(t_card card);
     /// Lets the player bet, check/call or raise.
     /// @return either the amount of chips that is added to the pot or FOLD, if the player folds.
-    int do_betting_action(const PublicState& public_state, BetRange bet_range);
+    int do_betting_action(const PublicState& public_state);
     /// Prepares the player for the start of a new game.
     void reset();
 

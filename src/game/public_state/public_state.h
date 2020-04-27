@@ -36,6 +36,8 @@ public:
     [[nodiscard]] std::vector<bool> get_remaining_folded() const;
     [[nodiscard]] size_t get_small_blind_index() const;
     [[nodiscard]] size_t get_big_blind_index() const;
+    /// The given player must bet at least this much or fold.
+    [[nodiscard]] int get_min_bet(size_t player_index) const;
 
     // basic getters
     [[nodiscard]] int get_big_blind() const { return big_blind; }

@@ -1,11 +1,11 @@
 #include "cli_controller.h"
 
-#include <tuple>
 #include <iostream>
 
 
-int CliController::bet(t_card hand, const PublicState& public_state, BetRange bet_range) {
-    auto [min_bet, max_bet] = bet_range;
+int CliController::bet(t_card hand, const PublicState& public_state) {
+    int min_bet = public_state.get_min_bet(player_index);
+    int max_bet = public_state.get_balances()[player_index];
 
     int bet;
     bool bet_ok = false;

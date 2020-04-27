@@ -8,7 +8,7 @@
 /// Lets a human type in their betting actions.
 class CliController : public PlayerController {
 public:
-    int bet(t_card hand, const PublicState& public_state, BetRange bet_range) override;
+    int bet(t_card hand, const PublicState& public_state) override;
 };
 
 
