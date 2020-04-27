@@ -1,5 +1,7 @@
 #include "public_state.h"
 
+#include <algorithm>
+
 
 // private
 
@@ -29,6 +31,13 @@ void PublicState::start_game() {
     folded = std::vector(balances.size(), false);
     community_cards.clear();
     dealer_index = next_player_after(dealer_index);
+}
+
+void PublicState::bet(size_t player_index, int amount) {
+    amount = std::clamp(amount, 0, balances[player_index]);
+    balances[player_index] -= amount;
+    bets[player_index] += amount;
+    // TODO add bet to the history
 }
 
 std::vector<size_t> PublicState::remaining_player_indices() const {

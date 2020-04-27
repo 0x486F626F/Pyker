@@ -26,6 +26,9 @@ struct PublicState {
 
     /// Resets bets, folded and community_cards. Moves dealer_index to the next non-bankrupt player.
     void start_game();
+    /// Reduces a player's balance by the specified amount of chips and adds it to their bet.
+    /// If the player doesn't have enough chips left, they bet all of their remaining chips.
+    void bet(size_t player_index, int amount);
     /// @return the indices of all players that aren't bankrupt.
     ///         A player is considered bankrupt if their balance is 0 and they haven't bet any chips this game.
     [[nodiscard]] std::vector<size_t> remaining_player_indices() const;
