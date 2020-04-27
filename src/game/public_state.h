@@ -20,11 +20,11 @@ struct PublicState {
     /// Same size as balances.
     /// Use remaining_folded() to get this information only for non-bankrupt players.
     std::vector<bool> folded;
-    std::vector<Card> public_cards;
+    std::vector<Card> community_cards;
     size_t dealer_index;
     // TODO history of betting actions
 
-    /// Resets bets, folded and public_cards. Moves dealer_index to the next non-bankrupt player.
+    /// Resets bets, folded and community_cards. Moves dealer_index to the next non-bankrupt player.
     void start_game();
     /// @return the indices of all players that aren't bankrupt.
     ///         A player is considered bankrupt if their balance is 0 and they haven't bet any chips this game.

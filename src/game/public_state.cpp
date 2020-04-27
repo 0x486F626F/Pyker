@@ -15,7 +15,7 @@ std::vector<T> vector_subset(const std::vector<T>& vec, const std::vector<size_t
 void PublicState::start_game() {
     bets = std::vector(balances.size(), 0);
     folded = std::vector(balances.size(), false);
-    public_cards.clear();
+    community_cards.clear();
     // TODO move dealer_index
 }
 
