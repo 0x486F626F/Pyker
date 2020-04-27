@@ -32,8 +32,6 @@ public:
     [[nodiscard]] std::vector<int> get_remaining_balances() const;
     /// @return the amount of chips bet in the current game by each non-bankrupt player.
     [[nodiscard]] std::vector<int> get_remaining_bets() const;
-    /// @return for each non-bankrupt player: either true, if they have folded this game, or false, otherwise.
-    [[nodiscard]] std::vector<bool> get_remaining_folded() const;
     /// @return the index of the next non-bankrupt player after the given index.
     [[nodiscard]] size_t next_player_after(size_t player_index) const;
     [[nodiscard]] size_t get_small_blind_index() const;
@@ -54,7 +52,6 @@ public:
     [[nodiscard]] const std::vector<int>& get_bets() const { return bets; }
     /// For each player either true, if they have folded this game, or false, otherwise.
     /// Same size as balances.
-    /// Use get_remaining_folded() to get this information only for non-bankrupt players.
     [[nodiscard]] const std::vector<bool>& get_folded() const { return folded; }
     [[nodiscard]] t_card get_community_cards() const { return community_cards; }
     [[nodiscard]] const std::vector<std::unique_ptr<LogItem>>& get_log() const { return log; }
