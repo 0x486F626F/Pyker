@@ -34,6 +34,8 @@ public:
     [[nodiscard]] std::vector<int> get_remaining_bets() const;
     /// @return for each non-bankrupt player: either true, if they have folded this game, or false, otherwise.
     [[nodiscard]] std::vector<bool> get_remaining_folded() const;
+    /// @return the index of the next non-bankrupt player after the given index.
+    [[nodiscard]] size_t next_player_after(size_t player_index) const;
     [[nodiscard]] size_t get_small_blind_index() const;
     [[nodiscard]] size_t get_big_blind_index() const;
     /// The given player must bet at least this much or fold.
@@ -72,9 +74,6 @@ private:
     std::vector<bool> folded;
     t_card community_cards = 0;
     std::vector<std::unique_ptr<LogItem>> log;
-
-    /// @return the index of the next non-bankrupt player after the given index.
-    [[nodiscard]] size_t next_player_after(size_t player_index) const;
 };
 
 

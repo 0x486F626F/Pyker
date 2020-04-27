@@ -15,14 +15,6 @@ std::vector<T> vector_subset(const std::vector<T>& vec, const std::vector<size_t
     return subset;
 }
 
-size_t PublicState::next_player_after(size_t player_index) const {
-    size_t index = (player_index + 1) % balances.size();
-    while (balances[index] <= 0 && bets[index] <= 0) {
-        index = (index + 1) % balances.size();
-    }
-    return index;
-}
-
 
 // public
 
@@ -85,6 +77,14 @@ std::vector<int> PublicState::get_remaining_bets() const {
 
 std::vector<bool> PublicState::get_remaining_folded() const {
     return vector_subset(folded, get_remaining_player_indices());
+}
+
+size_t PublicState::next_player_after(size_t player_index) const {
+    size_t index = (player_index + 1) % balances.size();
+    while (balances[index] <= 0 && bets[index] <= 0) {
+        index = (index + 1) % balances.size();
+    }
+    return index;
 }
 
 size_t PublicState::get_small_blind_index() const {
