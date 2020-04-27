@@ -48,7 +48,8 @@ void PublicState::start_round() {
 }
 
 void PublicState::reveal_community_card(t_card card) {
-    // TODO implement
+    community_cards = community_cards & card;
+    log.push_back(new CommunityCardRevealed(card));
 }
 
 int PublicState::bet(size_t player_index, int amount) {

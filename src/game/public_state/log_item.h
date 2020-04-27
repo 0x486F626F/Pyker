@@ -28,5 +28,11 @@ struct BetMade : public LogItem {
     }
 };
 
+/// A log item indicating that a card has been added to the community cards.
+struct CommunityCardRevealed : public LogItem {
+    t_card card;
+    explicit CommunityCardRevealed(t_card card) { this->card = card; }
+};
+
 
 #endif //PYKER_LOG_ITEM_H
