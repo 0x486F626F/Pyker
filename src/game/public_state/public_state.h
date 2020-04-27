@@ -23,6 +23,7 @@ public:
     /// If the player doesn't have enough chips left, they bet all of their remaining chips.
     /// @return the amount of chips bet.
     int bet(size_t player_index, int amount);
+    void clear_bets();
 
     /// @return the indices of all players that aren't bankrupt.
     ///         A player is considered bankrupt if their balance is 0 and they haven't bet any chips this game.
@@ -68,7 +69,6 @@ private:
     /// Same size as balances.
     std::vector<bool> folded;
     t_card community_cards = 0;
-    // TODO document
     std::vector<std::unique_ptr<LogItem>> log;
 
     /// @return the index of the next non-bankrupt player after the given index.

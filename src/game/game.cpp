@@ -44,12 +44,16 @@ void turn_river(std::vector<Player>& players, PublicState& public_state, Deck& d
     deck.deal();
     public_state.reveal_community_card(deck.deal());
 
+    public_state.start_round();
     betting_actions(players, public_state);
 }
 
 void showdown(std::vector<Player>& players, PublicState& public_state) {
     // TODO
     // TODO if more than one player didn't fold, reveal their cards (add them to the log?)
+
+    // cleanup
+    public_state.clear_bets();
 }
 
 

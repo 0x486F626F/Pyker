@@ -36,7 +36,6 @@ PublicState::PublicState(size_t num_players, int small_blind, int big_blind, int
 }
 
 void PublicState::start_game() {
-    bets = std::vector(balances.size(), 0);
     folded = std::vector(balances.size(), false);
     community_cards = 0;
     dealer_index = next_player_after(dealer_index);
@@ -58,6 +57,10 @@ int PublicState::bet(size_t player_index, int amount) {
     bets[player_index] += amount;
     log.push_back(std::make_unique<BetMade>(BetMade(player_index, amount)));
     return amount;
+}
+
+void PublicState::clear_bets() {
+    bets = std::vector(balances.size(), 0);
 }
 
 std::vector<size_t> PublicState::get_remaining_player_indices() const {
