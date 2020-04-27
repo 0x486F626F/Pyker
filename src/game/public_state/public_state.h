@@ -5,6 +5,8 @@
 #include "cards/card.h"
 #include "log_item.h"
 
+#include <memory>
+
 
 /// Public information about the game and the players.
 /// Always modify the struct through its own methods if possible, since these actions will be added to the log.
@@ -50,7 +52,7 @@ public:
     /// Use get_remaining_folded() to get this information only for non-bankrupt players.
     [[nodiscard]] const std::vector<bool>& get_folded() const { return folded; }
     [[nodiscard]] t_card get_community_cards() const { return community_cards; }
-    [[nodiscard]] const std::vector<LogItem*>& get_log() const { return log; }
+    [[nodiscard]] const std::vector<std::unique_ptr<LogItem>>& get_log() const { return log; }
 
 private:
     int big_blind;
@@ -67,7 +69,7 @@ private:
     std::vector<bool> folded;
     t_card community_cards = 0;
     // TODO document
-    std::vector<LogItem*> log;
+    std::vector<std::unique_ptr<LogItem>> log;
 
     /// @return the index of the next non-bankrupt player after the given index.
     [[nodiscard]] size_t next_player_after(size_t player_index) const;

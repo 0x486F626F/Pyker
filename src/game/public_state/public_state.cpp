@@ -40,23 +40,23 @@ void PublicState::start_game() {
     folded = std::vector(balances.size(), false);
     community_cards = 0;
     dealer_index = next_player_after(dealer_index);
-    log.push_back(new GameStart);
+    log.push_back(std::make_unique<GameStart>(GameStart()));
 }
 
 void PublicState::start_round() {
-    log.push_back(new RoundStart);
+    log.push_back(std::make_unique<RoundStart>(RoundStart()));
 }
 
 void PublicState::reveal_community_card(t_card card) {
     community_cards = community_cards & card;
-    log.push_back(new CommunityCardRevealed(card));
+    log.push_back(std::make_unique<CommunityCardRevealed>(CommunityCardRevealed(card)));
 }
 
 int PublicState::bet(size_t player_index, int amount) {
     amount = std::clamp(amount, 0, balances[player_index]);
     balances[player_index] -= amount;
     bets[player_index] += amount;
-    log.push_back(new BetMade(player_index, amount));
+    log.push_back(std::make_unique<BetMade>(BetMade(player_index, amount)));
     return amount;
 }
 
