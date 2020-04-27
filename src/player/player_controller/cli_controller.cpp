@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-int CliController::bet(std::vector<Card> hand, BetRange bet_range) {
+int CliController::bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) {
     auto [min_bet, max_bet] = bet_range;
 
     int bet;

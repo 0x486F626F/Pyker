@@ -3,6 +3,7 @@
 
 
 #include "cards/card.h"
+#include "game/public_state.h"
 
 
 typedef std::tuple<int, int> BetRange;
@@ -15,8 +16,7 @@ const int FOLD = -1;
 class PlayerController {
 public:
     /// @return the amount of chips that the player bets or FOLD, if the player folds.
-    // TODO add public state parameter
-    [[nodiscard]] virtual int bet(std::vector<Card> hand, BetRange bet_range) = 0;
+    [[nodiscard]] virtual int bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) = 0;
 };
 
 

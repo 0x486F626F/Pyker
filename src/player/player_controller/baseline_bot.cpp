@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-int BaselineBot::bet(std::vector<Card> hand, BetRange bet_range) {
+int BaselineBot::bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) {
     auto [min_bet, max_bet] = bet_range;
 
     // bet depending on the strength of the hand

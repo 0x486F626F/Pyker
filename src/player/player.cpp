@@ -12,9 +12,9 @@ void Player::deal(Card card) {
     hand.push_back(card);
 }
 
-int Player::do_betting_action(BetRange bet_range) {
+int Player::do_betting_action(const PublicState& public_state, BetRange bet_range) {
     print_hand();
-    int bet = controller->bet(hand, bet_range);
+    int bet = controller->bet(hand, public_state, bet_range);
 
     if (bet == FOLD) {
         std::cout << "Fold." << std::endl;
