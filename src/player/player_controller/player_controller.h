@@ -15,8 +15,8 @@ const int FOLD = -1;
 class PlayerController {
 public:
     /// @return the amount of chips that the player bets or FOLD, if the player folds.
-    // TODO add trace parameter
-    virtual int bet(std::vector<Card> hand, BetRange bet_range) = 0;
+    // TODO add public state parameter
+    [[nodiscard]] virtual int bet(std::vector<Card> hand, BetRange bet_range) = 0;
 };
 
 

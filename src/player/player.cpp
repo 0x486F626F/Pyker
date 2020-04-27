@@ -4,9 +4,8 @@
 #include <tuple>
 
 
-Player::Player(PlayerController* controller, int initial_balance) {
+Player::Player(PlayerController* controller) {
     this->controller = controller;
-    balance = initial_balance;
 }
 
 void Player::deal(Card card) {
@@ -19,31 +18,16 @@ int Player::do_betting_action(BetRange bet_range) {
 
     if (bet == FOLD) {
         std::cout << "Fold." << std::endl;
-        folded = true;
     } else {
         std::cout << "Bet: " << bet << std::endl;
         // TODO make sure PlayerControllers can't choose bet > balance
-        balance -= bet;
     }
 
     return bet;
 }
 
 void Player::reset() {
-    folded = false;
     hand.clear();
-}
-
-void Player::reduce_balance(int amount) {
-    balance -= amount;
-}
-
-void Player::set_balance(int b) {
-    this->balance = b;
-}
-
-bool Player::has_folded() const {
-    return folded;
 }
 
 void Player::print_hand() const {
