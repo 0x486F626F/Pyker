@@ -14,11 +14,11 @@ Session::Session(std::vector<Player> players, int starting_balance, int small_bl
 void Session::start() {
     // the game ends if there are less than two players left
     while (public_state.get_remaining_player_indices().size() >= 2) {
-        std::cout << std::endl << std::endl << std::endl
+        std::cout << std::endl << std::endl
                   << "##############" << std::endl
                   << "## New Hand ##" << std::endl
                   << "##############" << std::endl
-                  << std::endl << std::endl;
+                  << std::endl;
         play_hand(players, public_state);
     }
 }
