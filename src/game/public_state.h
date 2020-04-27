@@ -35,6 +35,11 @@ struct PublicState {
     [[nodiscard]] std::vector<int> remaining_bets() const;
     /// @return for each non-bankrupt player: either true, if they have folded this game, or false, otherwise.
     [[nodiscard]] std::vector<bool> remaining_folded() const;
+    [[nodiscard]] size_t small_blind_index() const;
+    [[nodiscard]] size_t big_blind_index() const;
+private:
+    /// @return the index of the next non-bankrupt player after the given index
+    [[nodiscard]] size_t next_player_after(size_t player_index) const;
 };
 
 
