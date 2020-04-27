@@ -10,7 +10,8 @@ Session::Session(std::vector<Player> players, int starting_balance, int big_blin
     public_state = PublicState {
         .big_blind = big_blind,
         .small_blind = small_blind,
-        // TODO initialise the other fields
+        .balances = std::vector(this->players.size(), starting_balance),
+        .dealer_index = 0,  // TODO choose dealer randomly
     };
 }
 
