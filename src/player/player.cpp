@@ -10,8 +10,8 @@ Player::Player(PlayerController* controller, size_t player_index) {
     controller->set_player_index(player_index);
 }
 
-void Player::deal(Card card) {
-    hand.push_back(card);
+void Player::deal(t_card card) {
+    hand = hand & card;
 }
 
 int Player::do_betting_action(const PublicState& public_state, BetRange bet_range) {
@@ -36,11 +36,10 @@ int Player::do_betting_action(const PublicState& public_state, BetRange bet_rang
 }
 
 void Player::reset() {
-    hand.clear();
+    hand = 0;
 }
 
 void Player::print_hand() const {
-    for (Card card : hand) {
-        std::cout << "Player " << player_index << "'s hand: " << card.str() << std::endl;
-    }
+    std::cout << "Player " << player_index << "'s hand: ";
+    print_cards(hand);
 }

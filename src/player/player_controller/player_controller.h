@@ -16,7 +16,7 @@ const int FOLD = -1;
 class PlayerController {
 public:
     /// @return the amount of chips that the player bets or FOLD, if the player folds.
-    [[nodiscard]] virtual int bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) = 0;
+    [[nodiscard]] virtual int bet(t_card hand, const PublicState& public_state, BetRange bet_range) = 0;
     /// Sets the index of this player in the public state.
     void set_player_index(size_t index) { player_index = index; }
 

@@ -16,7 +16,7 @@ public:
     void start_game();
     /// Logs the start of a new betting round.
     void start_round();
-    void reveal_community_card(Card card);
+    void reveal_community_card(t_card card);
     /// Reduces a player's balance by the specified amount of chips and adds it to their bet.
     /// If the player doesn't have enough chips left, they bet all of their remaining chips.
     /// @return the amount of chips bet.
@@ -49,7 +49,7 @@ public:
     /// Same size as balances.
     /// Use get_remaining_folded() to get this information only for non-bankrupt players.
     [[nodiscard]] const std::vector<bool>& get_folded() const { return folded; }
-    [[nodiscard]] const std::vector<Card>& get_community_cards() const { return community_cards; }
+    [[nodiscard]] t_card get_community_cards() const { return community_cards; }
     [[nodiscard]] const std::vector<LogItem*>& get_log() const { return log; }
 
 private:
@@ -65,7 +65,7 @@ private:
     /// For each player either true, if they have folded this game, or false, otherwise.
     /// Same size as balances.
     std::vector<bool> folded;
-    std::vector<Card> community_cards;
+    t_card community_cards = 0;
     // TODO document
     std::vector<LogItem*> log;
 

@@ -10,7 +10,7 @@
 /// A simple bot that bets based on the strength of its hand.
 class BaselineBot : public PlayerController {
 public:
-    int bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) override;
+    int bet(t_card hand, const PublicState& public_state, BetRange bet_range) override;
 
 private:
     std::bernoulli_distribution fold_with_weak_hand_distribution = std::bernoulli_distribution(0.5);

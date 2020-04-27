@@ -12,7 +12,7 @@ const uint8_t NUM_SUITS = 4;
 class Deck {
 public:
     Deck();
-    Card deal();
+    t_card deal();
 private:
     std::vector<Card> cards;
 };

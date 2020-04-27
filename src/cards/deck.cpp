@@ -19,11 +19,11 @@ Deck::Deck() {
     std::shuffle(cards.begin(), cards.end(), rng);
 }
 
-Card Deck::deal() {
+t_card Deck::deal() {
     if (cards.empty()) {
         throw std::length_error("There are no cards left in the deck");
     }
     Card card = cards.back();
     cards.pop_back();
-    return card;
+    return card.encode();
 }

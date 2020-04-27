@@ -38,7 +38,7 @@ PublicState::PublicState(size_t num_players, int small_blind, int big_blind, int
 void PublicState::start_game() {
     bets = std::vector(balances.size(), 0);
     folded = std::vector(balances.size(), false);
-    community_cards.clear();
+    community_cards = 0;
     dealer_index = next_player_after(dealer_index);
     log.push_back(new GameStart);
 }
@@ -47,7 +47,7 @@ void PublicState::start_round() {
     log.push_back(new RoundStart);
 }
 
-void PublicState::reveal_community_card(Card card) {
+void PublicState::reveal_community_card(t_card card) {
     // TODO implement
 }
 
