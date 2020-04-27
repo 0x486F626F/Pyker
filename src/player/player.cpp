@@ -24,10 +24,10 @@ int Player::do_betting_action(const PublicState& public_state, BetRange bet_rang
         std::cout << "Player " << player_index << " bets " << bet << "." << std::endl;
 
         // players cannot bet more than they have
-        if (bet > public_state.balances[player_index]) {
+        if (bet > public_state.get_balances()[player_index]) {
             throw std::domain_error(
                 "Player " + std::to_string(player_index) + " attempted to bet " + std::to_string(bet) +
-                ", but only has " + std::to_string(public_state.balances[player_index])
+                ", but only has " + std::to_string(public_state.get_balances()[player_index])
             );
         }
     }

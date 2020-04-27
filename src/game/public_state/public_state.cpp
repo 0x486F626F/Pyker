@@ -26,6 +26,15 @@ size_t PublicState::next_player_after(size_t player_index) const {
 
 // public
 
+PublicState::PublicState(size_t num_players, int small_blind, int big_blind, int starting_balance) {
+    this->small_blind = small_blind;
+    this->big_blind = big_blind;
+    dealer_index = 0,  // TODO choose dealer randomly
+    balances = std::vector(num_players, starting_balance);
+    bets = std::vector(num_players, 0);
+    folded = std::vector(num_players, false);
+}
+
 void PublicState::start_game() {
     bets = std::vector(balances.size(), 0);
     folded = std::vector(balances.size(), false);
@@ -50,11 +59,11 @@ int PublicState::bet(size_t player_index, int amount) {
     return amount;
 }
 
-std::vector<size_t> PublicState::remaining_player_indices() const {
+std::vector<size_t> PublicState::get_remaining_player_indices() const {
     std::vector<size_t> indices;
 
     for (int i = 0; i < balances.size(); i++) {
-        if (balances[i] > 0 && bets[i] > 0) {
+        if (balances[i] > 0 || bets[i] > 0) {
             indices.push_back(i);
         }
     }
@@ -62,22 +71,22 @@ std::vector<size_t> PublicState::remaining_player_indices() const {
     return indices;
 }
 
-std::vector<int> PublicState::remaining_balances() const {
-    return vector_subset(balances, remaining_player_indices());
+std::vector<int> PublicState::get_remaining_balances() const {
+    return vector_subset(balances, get_remaining_player_indices());
 }
 
-std::vector<int> PublicState::remaining_bets() const {
-    return vector_subset(bets, remaining_player_indices());
+std::vector<int> PublicState::get_remaining_bets() const {
+    return vector_subset(bets, get_remaining_player_indices());
 }
 
-std::vector<bool> PublicState::remaining_folded() const {
-    return vector_subset(folded, remaining_player_indices());
+std::vector<bool> PublicState::get_remaining_folded() const {
+    return vector_subset(folded, get_remaining_player_indices());
 }
 
-size_t PublicState::small_blind_index() const {
+size_t PublicState::get_small_blind_index() const {
     return next_player_after(dealer_index);
 }
 
-size_t PublicState::big_blind_index() const {
+size_t PublicState::get_big_blind_index() const {
     return next_player_after(next_player_after(dealer_index));
 }

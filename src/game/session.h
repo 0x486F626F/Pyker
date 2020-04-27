@@ -9,7 +9,7 @@
 /// A session consisting of multiple games/hands.
 class Session {
 public:
-    Session(std::vector<Player> players, int starting_balance, int big_blind = 20, int small_blind = 10);
+    Session(std::vector<Player> players, int starting_balance, int small_blind = 10, int big_blind = 20);
     void start();
 private:
     std::vector<Player> players;
