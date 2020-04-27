@@ -4,8 +4,10 @@
 #include <tuple>
 
 
-Player::Player(PlayerController* controller) {
+Player::Player(PlayerController* controller, size_t player_index) {
     this->controller = controller;
+    this->player_index = player_index;
+    controller->set_player_index(player_index);
 }
 
 void Player::deal(Card card) {
@@ -17,10 +19,17 @@ int Player::do_betting_action(const PublicState& public_state, BetRange bet_rang
     int bet = controller->bet(hand, public_state, bet_range);
 
     if (bet == FOLD) {
-        std::cout << "Fold." << std::endl;
+        std::cout << "Player " << player_index << " folds." << std::endl;
     } else {
-        std::cout << "Bet: " << bet << std::endl;
-        // TODO make sure PlayerControllers can't choose bet > balance
+        std::cout << "Player " << player_index << " bets " << bet << "." << std::endl;
+
+        // players cannot bet more than they have
+        if (bet > public_state.balances[player_index]) {
+            throw std::domain_error(
+                "Player " + std::to_string(player_index) + " attempted to bet " + std::to_string(bet) +
+                ", but only has " + std::to_string(public_state.balances[player_index])
+            );
+        }
     }
 
     return bet;
@@ -32,6 +41,6 @@ void Player::reset() {
 
 void Player::print_hand() const {
     for (Card card : hand) {
-        std::cout << "Hand: " << card.str() << std::endl;
+        std::cout << "Player " << player_index << "'s hand: " << card.str() << std::endl;
     }
 }

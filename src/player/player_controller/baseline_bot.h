@@ -8,7 +8,7 @@
 
 
 /// A simple bot that bets based on the strength of its hand.
-class BaselineBot : PlayerController {
+class BaselineBot : public PlayerController {
 public:
     int bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) override;
 

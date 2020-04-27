@@ -6,7 +6,7 @@
 
 
 /// Lets a human type in their betting actions.
-class CliController : PlayerController {
+class CliController : public PlayerController {
 public:
     int bet(std::vector<Card> hand, const PublicState& public_state, BetRange bet_range) override;
 };

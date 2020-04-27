@@ -9,7 +9,8 @@
 
 class Player {
 public:
-    explicit Player(PlayerController* controller);
+    /// @param player_index the index of this player in the public state.
+    explicit Player(PlayerController* controller, size_t player_index);
     void deal(Card card);
     /// Lets the player bet, check/call or raise.
     /// @return either the amount of chips that is added to the pot or FOLD, if the player folds.
@@ -19,6 +20,8 @@ public:
 
 private:
     PlayerController* controller;
+    /// The index of this player in the public state.
+    size_t player_index;
     std::vector<Card> hand;
 
     void print_hand() const;
