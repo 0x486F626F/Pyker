@@ -31,13 +31,23 @@ void PublicState::start_game() {
     folded = std::vector(balances.size(), false);
     community_cards.clear();
     dealer_index = next_player_after(dealer_index);
+    log.push_back(new GameStart);
 }
 
-void PublicState::bet(size_t player_index, int amount) {
+void PublicState::start_round() {
+    log.push_back(new RoundStart);
+}
+
+void PublicState::reveal_community_card(Card card) {
+    // TODO implement
+}
+
+int PublicState::bet(size_t player_index, int amount) {
     amount = std::clamp(amount, 0, balances[player_index]);
     balances[player_index] -= amount;
     bets[player_index] += amount;
-    // TODO add bet to the history
+    log.push_back(new BetMade(player_index, amount));
+    return amount;
 }
 
 std::vector<size_t> PublicState::remaining_player_indices() const {

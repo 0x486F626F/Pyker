@@ -3,7 +3,7 @@
 
 
 #include "cards/card.h"
-#include "game/public_state.h"
+#include "game/public_state/public_state.h"
 
 
 typedef std::tuple<int, int> BetRange;
@@ -12,7 +12,7 @@ typedef std::tuple<int, int> BetRange;
 const int FOLD = -1;
 
 
-/// An interface for objects that control the behaviour of a player.
+/// Abstract base class for objects that control the behaviour of a player.
 class PlayerController {
 public:
     /// @return the amount of chips that the player bets or FOLD, if the player folds.

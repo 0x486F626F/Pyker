@@ -17,10 +17,11 @@ add_executable(pyker
 
         src/game/game.cpp
         src/game/game.h
-        src/game/public_state.cpp
-        src/game/public_state.h
         src/game/session.cpp
         src/game/session.h
+        src/game/public_state/log_item.h
+        src/game/public_state/public_state.cpp
+        src/game/public_state/public_state.h
 
         src/player/player.cpp
         src/player/player.h

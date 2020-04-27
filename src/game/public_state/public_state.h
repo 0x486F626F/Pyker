@@ -3,9 +3,11 @@
 
 
 #include "cards/card.h"
+#include "log_item.h"
 
 
 /// Public information about the game and the players.
+/// Always modify the struct through its own methods if possible, since these actions will be added to the log.
 struct PublicState {
     int big_blind;
     int small_blind;
@@ -22,13 +24,18 @@ struct PublicState {
     std::vector<bool> folded;
     std::vector<Card> community_cards;
     size_t dealer_index;
-    // TODO history of betting actions
+    // TODO document
+    std::vector<LogItem*> log;
 
     /// Resets bets, folded and community_cards. Moves dealer_index to the next non-bankrupt player.
     void start_game();
+    /// Logs the start of a new betting round.
+    void start_round();
+    void reveal_community_card(Card card);
     /// Reduces a player's balance by the specified amount of chips and adds it to their bet.
     /// If the player doesn't have enough chips left, they bet all of their remaining chips.
-    void bet(size_t player_index, int amount);
+    /// @return the amount of chips bet.
+    int bet(size_t player_index, int amount);
     /// @return the indices of all players that aren't bankrupt.
     ///         A player is considered bankrupt if their balance is 0 and they haven't bet any chips this game.
     [[nodiscard]] std::vector<size_t> remaining_player_indices() const;
@@ -41,7 +48,7 @@ struct PublicState {
     [[nodiscard]] size_t small_blind_index() const;
     [[nodiscard]] size_t big_blind_index() const;
 private:
-    /// @return the index of the next non-bankrupt player after the given index
+    /// @return the index of the next non-bankrupt player after the given index.
     [[nodiscard]] size_t next_player_after(size_t player_index) const;
 };
 

@@ -4,11 +4,10 @@
 
 int main() {
     // initialize players
-    std::vector<CliController> controllers = { CliController(), CliController(), CliController() };
     std::vector<Player> players = {
-        Player(&controllers[0], 0),
-        Player(&controllers[1], 1),
-        Player(&controllers[2], 2),
+        Player(new CliController, 0),
+        Player(new CliController, 1),
+        Player(new CliController, 2),
     };
 
     // start playing

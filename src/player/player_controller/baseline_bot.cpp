@@ -23,7 +23,6 @@ int BaselineBot::bet(std::vector<Card> hand, const PublicState& public_state, Be
     return bet;
 }
 
-/// Randomly decides whether the player should keep playing despite having a bad hand
 bool BaselineBot::fold_with_weak_hand() {
     return fold_with_weak_hand_distribution(rng);
 }

@@ -3,7 +3,7 @@
 
 
 #include "player/player.h"
-#include "public_state.h"
+#include "game/public_state/public_state.h"
 
 
 /// Plays one game/hand, consisting of up to four betting rounds.

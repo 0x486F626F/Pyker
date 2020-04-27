@@ -3,7 +3,7 @@
 
 
 #include "player/player.h"
-#include "public_state.h"
+#include "game/public_state/public_state.h"
 
 
 /// A session consisting of multiple games/hands.

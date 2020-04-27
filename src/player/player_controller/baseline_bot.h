@@ -15,6 +15,7 @@ public:
 private:
     std::bernoulli_distribution fold_with_weak_hand_distribution = std::bernoulli_distribution(0.5);
     std::default_random_engine rng = std::default_random_engine(std::random_device()());
+    /// Randomly decides whether the player should keep playing despite having a bad hand
     bool fold_with_weak_hand();
 };
 

@@ -17,12 +17,13 @@ Session::Session(std::vector<Player> players, int starting_balance, int big_blin
 
 void Session::start() {
     // the game ends if there are less than two players left
+    // TODO use public_state.remaining_player_indices().size() instead
     while (players.size() >= 2) {
-        std::cout << std::endl
-            << "##############" << std::endl
-            << "## New Hand ##" << std::endl
-            << "##############" << std::endl
-            << std::endl;
+        std::cout << std::endl << std::endl << std::endl
+                  << "##############" << std::endl
+                  << "## New Hand ##" << std::endl
+                  << "##############" << std::endl
+                  << std::endl << std::endl;
         play_hand(players, public_state);
     }
 }

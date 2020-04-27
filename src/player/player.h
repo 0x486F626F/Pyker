@@ -3,7 +3,7 @@
 
 
 #include "cards/card.h"
-#include "game/public_state.h"
+#include "game/public_state/public_state.h"
 #include "player_controller/player_controller.h"
 
 
