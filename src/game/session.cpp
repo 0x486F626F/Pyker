@@ -10,6 +10,7 @@ Session::Session(std::vector<Player> players, int starting_balance, int big_blin
     public_state = PublicState {
         .big_blind = big_blind,
         .small_blind = small_blind,
+        // TODO initialise the other fields
     };
 }
 
@@ -21,15 +22,6 @@ void Session::start() {
             << "## New Hand ##" << std::endl
             << "##############" << std::endl
             << std::endl;
-        play_next_hand();
+        play_hand(players, public_state);
     }
-}
-
-void Session::play_next_hand() {
-    play_hand(players, public_state);
-
-    // TODO check whether some players went bankrupt
-
-    // move the dealer button to the next player
-    public_state.dealer_index = (public_state.dealer_index + 1) % players.size();
 }

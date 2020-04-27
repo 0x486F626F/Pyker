@@ -14,7 +14,6 @@ public:
 private:
     std::vector<Player> players;
     PublicState public_state;
-    void play_next_hand();
 };
 
 
