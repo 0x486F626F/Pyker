@@ -17,6 +17,7 @@ public:
     int do_betting_action(const PublicState& public_state);
     /// Prepares the player for the start of a new game.
     void reset();
+    [[nodiscard]] t_card get_hand() const { return hand; }
 
 private:
     PlayerController* controller;

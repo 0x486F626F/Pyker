@@ -5,10 +5,13 @@
 
 
 int BaselineBot::bet(t_card hand, const PublicState& public_state) {
+    throw std::runtime_error("BaselineBot not working. Use another PlayerController.");
+
     int min_bet = public_state.get_min_bet(player_index);
     int max_bet = public_state.get_balances()[player_index];
 
     // bet depending on the strength of the hand
+    // TODO this isn't how hand_strength is supposed to be used. Lower scores are better.
     int strength = hand_strength(hand);
     int bet = strength * 10;
 

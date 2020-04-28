@@ -1,13 +1,16 @@
 #include "game.h"
 #include "cards/deck.h"
+#include "cards/hand.h"
 
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
 
 // private
 
+// TODO consider making this PublicState::print()
 void print_status(const PublicState& public_state) {
     // balances
     std::cout << "Balances: ";
@@ -26,17 +29,23 @@ void print_status(const PublicState& public_state) {
     }
 
     // folded players
-    if (public_state.get_folded_player_indices().size() > 0) {
+    if (!public_state.get_folded_player_indices().empty()) {
         std::cout << "Folded: Player(s) ";
         for (size_t player_index: public_state.get_folded_player_indices()) {
             std::cout << player_index << ", ";
         }
         std::cout << std::endl;
     }
+
+    // community cards
+    if (public_state.get_community_cards() != 0) {
+        std::cout << "Community cards: ";
+        print_cards(public_state.get_community_cards());
+    }
 }
 
 /// Checks whether the amount of chips a player wants to bet is legal.
-void check_bet(int bet, PublicState& public_state, size_t player_index) {
+void check_bet(int bet, const PublicState& public_state, size_t player_index) {
     if (bet == FOLD) {
         std::cout << "Player " << player_index << " folds." << std::endl;
     } else {
@@ -133,12 +142,59 @@ void turn_river(std::vector<Player>& players, PublicState& public_state, Deck& d
     do_betting_actions(players, public_state, public_state.get_small_blind_index());
 }
 
-void showdown(std::vector<Player>& players, PublicState& public_state) {
-    // TODO
-    // TODO if more than one player didn't fold, reveal their cards (add them to the log?)
+/// Given a list of players indices, returns the one who has the best hand.
+// TODO check for ties!!!
+size_t find_strongest_hand_index(
+    std::set<size_t>& players_indices,
+    const std::vector<Player>& players,
+    const PublicState& public_state
+) {
+    int best_hand_strength = INT_MAX;  // lower value is better
+    size_t best_hand_index;
 
-    // cleanup
-    public_state.clear_bets();
+    for (size_t player_index : players_indices) {
+        t_card hand = players[player_index].get_hand() | public_state.get_community_cards();
+        int strength = hand_strength(hand);
+        if (strength < best_hand_strength) {
+            best_hand_strength = strength;
+            best_hand_index = player_index;
+        }
+    }
+
+    return best_hand_index;
+}
+
+void showdown(const std::vector<Player>& players, PublicState& public_state) {
+    // players who are eligible for winning the pot (= players who aren't bankrupt and haven't folded)
+    std::set<size_t> remaining_player_indices;
+    for (size_t index : public_state.get_remaining_player_indices()) {
+        if (!public_state.get_folded()[index]) {
+            remaining_player_indices.insert(index);
+        }
+    }
+
+    // TODO if more than one player didn't fold, reveal their cards (add them to the log)
+
+    // resolve main and side pools
+    while (!remaining_player_indices.empty()) {
+        size_t winner_index = find_strongest_hand_index(remaining_player_indices, players, public_state);
+        int winners_bet = public_state.bets[winner_index];
+
+        // the winner gets at most winners_bet chips from each player
+        for (size_t player_index : public_state.get_remaining_player_indices()) {
+            int amount_won = std::min(public_state.bets[player_index], winners_bet);
+            public_state.balances[winner_index] += amount_won;
+            public_state.bets[player_index] -= amount_won;
+        }
+
+        remaining_player_indices.erase(winner_index);
+    }
+
+    // all of the winners have claimed their chips, so the remaining bets go back to the respective player's balance
+    for (size_t player_index : public_state.get_remaining_player_indices()) {
+        public_state.balances[player_index] += public_state.bets[player_index];
+        public_state.bets[player_index] = 0;
+    }
 }
 
 

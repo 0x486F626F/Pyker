@@ -8,6 +8,7 @@
 
 
 /// A simple bot that bets based on the strength of its hand.
+/// TODO doesn't work at the moment
 class BaselineBot : public PlayerController {
 public:
     int bet(t_card hand, const PublicState& public_state) override;

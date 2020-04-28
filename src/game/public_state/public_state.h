@@ -12,6 +12,13 @@
 /// Always modify the struct through its own methods if possible, since these actions will be added to the log.
 class PublicState {
 public:
+    /// The amount of chips each of the players has left.
+    /// Use get_remaining_balances() for the balances of non-bankrupt players.
+    std::vector<int> balances;
+    /// The amount of chips bet by each player in the current game.
+    /// Same size as balances.
+    std::vector<int> bets;
+
     PublicState(size_t num_players, int small_blind, int big_blind, int starting_balance);
 
     /// Resets bets, folded and community_cards. Moves dealer_index to the next non-bankrupt player.
@@ -24,7 +31,6 @@ public:
     /// @return the amount of chips bet.
     int bet(size_t player_index, int amount);
     void fold(size_t player_index);
-    void clear_bets();
 
     /// @return the indices of all players that aren't bankrupt.
     ///         A player is considered bankrupt if their balance is 0 and they haven't bet any chips this game.
@@ -65,12 +71,6 @@ private:
     int big_blind;
     int small_blind;
     size_t dealer_index;
-    /// The amount of chips each of the players has left.
-    /// Use get_remaining_balances() for the balances of non-bankrupt players.
-    std::vector<int> balances;
-    /// The amount of chips bet by each player in the current game.
-    /// Same size as balances.
-    std::vector<int> bets;
     /// For each player either true, if they have folded this game, or false, otherwise.
     /// Same size as balances.
     std::vector<bool> folded;

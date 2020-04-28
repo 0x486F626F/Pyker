@@ -11,7 +11,7 @@ Player::Player(PlayerController* controller, size_t player_index) {
 }
 
 void Player::deal(t_card card) {
-    hand = hand & card;
+    hand = hand | card;
 }
 
 int Player::do_betting_action(const PublicState& public_state) {

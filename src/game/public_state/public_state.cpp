@@ -21,7 +21,7 @@ std::vector<T> vector_subset(const std::vector<T>& vec, const std::vector<size_t
 PublicState::PublicState(size_t num_players, int small_blind, int big_blind, int starting_balance) {
     this->small_blind = small_blind;
     this->big_blind = big_blind;
-    dealer_index = 2,  // TODO choose dealer randomly
+    dealer_index = 1,  // TODO choose dealer randomly
     balances = std::vector(num_players, starting_balance);
     bets = std::vector(num_players, 0);
     folded = std::vector(num_players, false);
@@ -39,7 +39,7 @@ void PublicState::start_round() {
 }
 
 void PublicState::reveal_community_card(t_card card) {
-    community_cards = community_cards & card;
+    community_cards = community_cards | card;
     log.push_back(std::make_unique<CommunityCardRevealed>(CommunityCardRevealed(card)));
 }
 
@@ -54,10 +54,6 @@ int PublicState::bet(size_t player_index, int amount) {
 void PublicState::fold(size_t player_index) {
     folded[player_index] = true;
     log.push_back(std::make_unique<PlayerFold>(PlayerFold(player_index)));
-}
-
-void PublicState::clear_bets() {
-    bets = std::vector(balances.size(), 0);
 }
 
 std::vector<size_t> PublicState::get_remaining_player_indices() const {
