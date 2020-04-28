@@ -33,6 +33,8 @@ public:
     [[nodiscard]] std::vector<int> get_remaining_balances() const;
     /// @return the amount of chips bet in the current game by each non-bankrupt player.
     [[nodiscard]] std::vector<int> get_remaining_bets() const;
+    /// @return the indices of all players who folded this game.
+    [[nodiscard]] std::vector<size_t> get_folded_player_indices() const;
     /// @return the index of the next non-bankrupt player after the given index.
     [[nodiscard]] size_t next_player_after(size_t player_index) const;
     [[nodiscard]] size_t get_small_blind_index() const;

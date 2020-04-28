@@ -80,6 +80,15 @@ std::vector<int> PublicState::get_remaining_bets() const {
     return vector_subset(bets, get_remaining_player_indices());
 }
 
+
+std::vector<size_t> PublicState::get_folded_player_indices() const {
+    std::vector<size_t> indices;
+    for (int i = 0; i < folded.size(); i++) {
+        if (folded[i]) { indices.push_back(i); }
+    }
+    return indices;
+}
+
 size_t PublicState::next_player_after(size_t player_index) const {
     size_t index = (player_index + 1) % balances.size();
     while (balances[index] <= 0 && bets[index] <= 0) {
