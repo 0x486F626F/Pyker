@@ -11,6 +11,6 @@ int main() {
     };
 
     // start playing
-    Session session = Session(players, 200, 20, 10);
+    Session session = Session(players, 200, 10, 20);
     session.start();
 }

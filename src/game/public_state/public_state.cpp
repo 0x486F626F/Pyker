@@ -21,7 +21,7 @@ std::vector<T> vector_subset(const std::vector<T>& vec, const std::vector<size_t
 PublicState::PublicState(size_t num_players, int small_blind, int big_blind, int starting_balance) {
     this->small_blind = small_blind;
     this->big_blind = big_blind;
-    dealer_index = 0,  // TODO choose dealer randomly
+    dealer_index = 2,  // TODO choose dealer randomly
     balances = std::vector(num_players, starting_balance);
     bets = std::vector(num_players, 0);
     folded = std::vector(num_players, false);
