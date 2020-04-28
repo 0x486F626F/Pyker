@@ -39,6 +39,8 @@ public:
     [[nodiscard]] size_t get_big_blind_index() const;
     /// The given player must bet at least this much or fold.
     [[nodiscard]] int get_min_bet(size_t player_index) const;
+    /// The highest amount any player has bet so far (NOT the opposite of get_min_bet).
+    [[nodiscard]] int get_highest_bet() const;
 
     // basic getters
     [[nodiscard]] int get_big_blind() const { return big_blind; }

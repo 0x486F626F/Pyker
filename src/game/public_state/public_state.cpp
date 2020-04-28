@@ -97,9 +97,12 @@ size_t PublicState::get_big_blind_index() const {
 }
 
 int PublicState::get_min_bet(size_t player_index) const {
-    int highest_bet = std::max_element(bets.begin(), bets.end())[0];
     // the player must at least catch up to the highest bet..
-    int min_bet = highest_bet - bets[player_index];
+    int min_bet = get_highest_bet() - bets[player_index];
     // ... unless they can't afford that, in which case they go all in
     return std::clamp(min_bet, 0, balances[player_index]);
+}
+
+int PublicState::get_highest_bet() const {
+    return std::max_element(bets.begin(), bets.end())[0];
 }
