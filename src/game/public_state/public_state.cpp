@@ -51,6 +51,11 @@ int PublicState::bet(size_t player_index, int amount) {
     return amount;
 }
 
+void PublicState::fold(size_t player_index) {
+    folded[player_index] = true;
+    log.push_back(std::make_unique<PlayerFold>(PlayerFold(player_index)));
+}
+
 void PublicState::clear_bets() {
     bets = std::vector(balances.size(), 0);
 }

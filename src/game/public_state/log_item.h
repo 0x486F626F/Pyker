@@ -28,6 +28,12 @@ struct BetMade : public LogItem {
     }
 };
 
+/// A log item for a player folding
+struct PlayerFold : public LogItem {
+    size_t player_index;
+    explicit PlayerFold(size_t player_index) { this->player_index = player_index; }
+};
+
 /// A log item indicating that a card has been added to the community cards.
 struct CommunityCardRevealed : public LogItem {
     t_card card;

@@ -23,6 +23,7 @@ public:
     /// If the player doesn't have enough chips left, they bet all of their remaining chips.
     /// @return the amount of chips bet.
     int bet(size_t player_index, int amount);
+    void fold(size_t player_index);
     void clear_bets();
 
     /// @return the indices of all players that aren't bankrupt.
