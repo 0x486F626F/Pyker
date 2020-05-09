@@ -30,4 +30,10 @@ add_executable(pyker
         src/player/player_controller/cli_controller.cpp
         src/player/player_controller/cli_controller.h
         src/player/player_controller/player_controller.h
+
+        src/kuhn/constants.h
+        src/kuhn/kuhn_trainer.cpp
+        src/kuhn/kuhn_trainer.h
+        src/kuhn/node.cpp
+        src/kuhn/node.h
 )

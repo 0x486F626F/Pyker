@@ -15,6 +15,7 @@ Deck::Deck() {
     }
 
     // shuffle the cards
+    // TODO use Fisher-Yates shuffle
     auto rng = std::default_random_engine(std::random_device()());
     std::shuffle(cards.begin(), cards.end(), rng);
 }

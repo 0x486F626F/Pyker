@@ -1,16 +1,8 @@
-#include "game/session.h"
-#include "player/player_controller/cli_controller.h"
+#include "kuhn/kuhn_trainer.h"
 
+
+const int NUM_TRAIN_ITERATIONS = 1000000;
 
 int main() {
-    // initialize players
-    std::vector<Player> players = {
-        Player(new CliController, 0),
-        Player(new CliController, 1),
-        Player(new CliController, 2),
-    };
-
-    // start playing
-    Session session = Session(players, 200, 10, 20);
-    session.start();
+    KuhnTrainer().train(NUM_TRAIN_ITERATIONS);
 }
