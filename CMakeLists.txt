@@ -31,9 +31,9 @@ add_executable(pyker
         src/player/player_controller/cli_controller.h
         src/player/player_controller/player_controller.h
 
-        src/kuhn/constants.h
-        src/kuhn/kuhn_trainer.cpp
-        src/kuhn/kuhn_trainer.h
-        src/kuhn/node.cpp
-        src/kuhn/node.h
+        src/simple_poker/constants.h
+        src/simple_poker/trainer.cpp
+        src/simple_poker/trainer.h
+        src/simple_poker/node.cpp
+        src/simple_poker/node.h
 )
