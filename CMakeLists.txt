@@ -34,6 +34,8 @@ add_executable(pyker
         src/simple_poker/constants.h
         src/simple_poker/game_over_utils.cpp
         src/simple_poker/game_over_utils.h
+        src/simple_poker/information_set.cpp
+        src/simple_poker/information_set.h
         src/simple_poker/node.cpp
         src/simple_poker/node.h
         src/simple_poker/trainer.cpp
