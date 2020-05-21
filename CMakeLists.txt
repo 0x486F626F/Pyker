@@ -32,7 +32,9 @@ add_executable(pyker
         src/player/player_controller/player_controller.h
 
 
-        src/simple_poker/constants.h
+        src/simple_poker/action.h
+        src/simple_poker/deck.cpp
+        src/simple_poker/deck.h
         src/simple_poker/game_over_utils.cpp
         src/simple_poker/game_over_utils.h
         src/simple_poker/information_set.cpp
