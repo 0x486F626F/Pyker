@@ -44,6 +44,8 @@ add_executable(pyker
         src/simple_poker/trainer.cpp
         src/simple_poker/trainer.h
 
+        src/simple_poker/simulation/simulate.cpp
+        src/simple_poker/simulation/simulate.h
         src/simple_poker/simulation/simple_player.h
         src/simple_poker/simulation/random_bot.cpp
         src/simple_poker/simulation/random_bot.h
