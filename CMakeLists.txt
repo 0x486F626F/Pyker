@@ -31,6 +31,7 @@ add_executable(pyker
         src/player/player_controller/cli_controller.h
         src/player/player_controller/player_controller.h
 
+
         src/simple_poker/constants.h
         src/simple_poker/game_over_utils.cpp
         src/simple_poker/game_over_utils.h
@@ -40,4 +41,6 @@ add_executable(pyker
         src/simple_poker/node.h
         src/simple_poker/trainer.cpp
         src/simple_poker/trainer.h
+
+        src/simple_poker/simulation/simple_player.h
 )
